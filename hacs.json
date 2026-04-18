@@ -1,0 +1,6 @@
+{
+  "name": "Omnilistic",
+  "render_adm": true,
+  "type": "plugin",
+  "content_directory": "dist"
+}
