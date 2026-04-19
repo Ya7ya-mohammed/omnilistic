@@ -1,4 +1,4 @@
-# Omnilistic Cards Collection
+# Omnilistic Cards
 
 ## Cards
 
