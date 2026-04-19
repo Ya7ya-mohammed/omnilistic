@@ -25,7 +25,7 @@ entity: light.living_room
 ### 2. Omnilistic Speedtest Card (`custom:omnilistic-speedtest`)
 A dedicated network monitoring card with a beautiful UI. 
 
-![Omnilistic Speedtest Card](img/Omnilistic-speedtest.jpg)
+![Omnilistic Speedtest Card](img/omnilistic-speedtest.jpg)
 
 **Key Functions & Features:**
 * Visualizes raw data from your Home Assistant speedtest integration.
