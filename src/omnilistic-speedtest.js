@@ -162,6 +162,9 @@ class OmnilisticSpeedtest extends LitElement {
 
   _runTest() {
     if (this.config.script_entity && !this._isUpdating) {
+      // Trigger Medium Haptics
+      this.dispatchEvent(new CustomEvent("haptic", { detail: "medium", bubbles: true, composed: true }));
+
       this._lastValues = {
         down: this.hass.states[this.config.download_entity]?.state,
         up: this.hass.states[this.config.upload_entity]?.state,
@@ -234,7 +237,6 @@ class OmnilisticEditor extends LitElement {
   render() {
     if (!this.hass || !this._config) return html``;
 
-    // Using HA's native form schema ensures pickers are loaded 100% of the time.
     const schema = [
       { name: "name", selector: { text: {} } },
       { name: "script_entity", selector: { entity: { domain: ["script"] } } },
