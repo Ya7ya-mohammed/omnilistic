@@ -1,4 +1,4 @@
-# Omnilistic Suite for Home Assistant
+# Omnilistic cards
 
 A collection of clean, modern, custom-built UI cards for your Home Assistant dashboard.
 
@@ -61,7 +61,7 @@ entity: fan.xiaomi_air_purifier_4_lite
 2. Click the **three dots (⋮)** in the top right corner and select **Custom repositories**.
 3. Paste this link into the Repository field: `https://github.com/Ya7ya-mohammed/omnilistic`
 4. Select **Dashboard** as the Category and click **Add**.
-5. Click on the new **Omnilistic Suite** in your list, then click **Download**.
+5. Click on the new **Omnilistic Cards** in your list, then click **Download**.
 6. **Important:** Refresh your browser or clear your mobile app cache (`Ctrl + F5` or pull down to refresh) so Home Assistant loads the new cards.
 
 You can now use the cards from the visual Card Picker or manually in YAML.
