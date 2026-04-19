@@ -757,3 +757,4 @@ window.customCards.push({
   description: 'Simplified air purifier card with controls deck, dynamic speed slider, PM2.5 monitoring, and filter stats.',
   preview:     true,
 });
+
