@@ -1,5 +1,7 @@
 # Omnilistic Cards 🎛️
 
+A collection of precision-engineered, custom-built UI cards for your Home Assistant dashboard. Designed with modern aesthetics, zero-latency controls, dynamic animations, and full Visual Editor support.
+---
 
 ## 📦 The Cards
 
@@ -25,7 +27,7 @@ entity: light.living_room
 ### 2. Omnilistic Speedtest Card (`custom:omnilistic-speedtest`)
 A dedicated network monitoring card that visualizes your bandwidth data with beautifully animated arc gauges.
 
-![Omnilistic Speedtest Card](img/Omnilistic-speedtest.jpg)
+![Omnilistic Speedtest Card](img/omnilistic-speedtest.jpg)
 
 **Key Features:**
 * **Smart Color Scaling:** Arcs dynamically shift colors based on live Ping/Down/Up quality thresholds.
@@ -63,9 +65,6 @@ speed_entity: number.air_purifier_favorite_motor_speed
 ```
 ---
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Ya7ya-mohammed&repository=omnilistic&category=plugin)
-
-A collection of precision-engineered, custom-built UI cards for your Home Assistant dashboard. Designed with modern aesthetics, zero-latency controls, dynamic animations, and full Visual Editor support.
-
 
 ## 🚀 Installation 
 
