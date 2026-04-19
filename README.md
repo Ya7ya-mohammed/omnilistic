@@ -1,2 +1,8 @@
-# omnilistic
-custom Home Assistant cards including the Omnilistic entity card, Speedtest card, and a Minimal Purifier card.
+# Omnilistic Cards Collection
+
+## Cards
+
+### 1. omnilistic-speedtest
+```yaml
+type: custom:omnilistic-speedtest
+entity: sensor.speedtest_download
