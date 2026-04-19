@@ -1,6 +1,5 @@
 {
   "name": "Omnilistic",
   "render_readme": true,
-  "content_directory": "dist",
   "homeassistant": "2023.9.0"
 }
