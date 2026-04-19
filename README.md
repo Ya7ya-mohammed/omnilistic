@@ -8,6 +8,9 @@ A collection of clean, modern, custom-built UI cards for your Home Assistant das
 
 ### 1. Omnilistic Card (`custom:omnilistic-card`)
 The main "Super JS Card" built for a high-end, unified dashboard experience.
+
+![Omnilistic Card](img/omnilistic-card.jpg)
+
 **Key Functions & Features:**
 * Displays entity states with a clean, modern layout.
 * Built-in tap controls to easily toggle your devices (lights, switches, etc.) on and off.
@@ -21,6 +24,9 @@ entity: light.living_room
 
 ### 2. Omnilistic Speedtest Card (`custom:omnilistic-speedtest`)
 A dedicated network monitoring card with a beautiful UI. 
+
+![Omnilistic Speedtest Card](img/Omnilistic-speedtest.jpg)
+
 **Key Functions & Features:**
 * Visualizes raw data from your Home Assistant speedtest integration.
 * Displays your Ping, Download, and Upload speeds in a clean, easy-to-read format.
@@ -32,6 +38,11 @@ entity: sensor.speedtest_download
 
 ### 3. Minimal Purifier Card (`custom:minimal-purifier-card`)
 A simplified, highly functional control interface dedicated specifically for the **Xiaomi Air Purifier 4 Lite**.
+
+*Available in both Dark and Light modes:*
+![Minimal Purifier Card Dark](img/minimal-purifier-card.jpg)
+![Minimal Purifier Card Light](img/minimal-purifier-card-light.jpg)
+
 **Key Functions & Features:**
 * Strips away standard climate clutter for a minimal footprint.
 * Dedicated power toggle and fan speed controls for the Xiaomi Purifier.
