@@ -1,67 +1,78 @@
-# Omnilistic cards
+# Omnilistic Cards 🎛️
 
-A collection of clean, modern, custom-built UI cards for your Home Assistant dashboard.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Ya7ya-mohammed&repository=omnilistic&category=plugin)
+
+A collection of precision-engineered, custom-built UI cards for your Home Assistant dashboard. Designed with modern aesthetics, zero-latency controls, dynamic animations, and full Visual Editor support.
 
 ---
 
-## 📦 Included Cards
+## 🚀 Installation 
+
+**Option 1: The Easy Way** Click the **"Open in HACS"** badge above to automatically add this repository to your Home Assistant instance.
+
+**Option 2: Manual HACS Install** 1. Go to **HACS** > **Frontend** > **⋮** > **Custom repositories**.
+2. Add `https://github.com/Ya7ya-mohammed/omnilistic` as a **Dashboard** category.
+3. Click **Download** and then refresh your browser cache (`Ctrl + F5`).
+
+---
+
+## 📦 The Cards
 
 ### 1. Omnilistic Card (`custom:omnilistic-card`)
-The main "Super JS Card" built for a high-end, unified dashboard experience.
+A highly advanced, unified control card with dynamic media support, built-in sliders, and custom glassmorphism styling.
 
 ![Omnilistic Card](img/omnilistic-card.jpg)
 
-**Key Functions & Features:**
-* Displays entity states with a clean, modern layout.
-* Built-in tap controls to easily toggle your devices (lights, switches, etc.) on and off.
-* Advanced styling including sleek, custom CSS glass/blur effects.
-* Responsive design that adapts smoothly to your dashboard layout.
+**Key Features:**
+* **Dynamic Sliders:** Automatically cycles between Brightness, Color Temp, Hue, Saturation, and Volume based on the entity.
+* **Smart Media:** Extracts album art to the background and reveals a sleek media playback deck.
+* **Intelligent Animations:** State-based animations for fans, vacuums, lights, and media.
+* **Dual-Entity Routing:** Display a sensor (e.g., temperature) while the slider controls a thermostat.
 
 ```yaml
 type: custom:omnilistic-card
 entity: light.living_room
-```
-
-### 2. Omnilistic Speedtest Card (`custom:omnilistic-speedtest`)
-A dedicated network monitoring card with a beautiful UI. 
-
-![Omnilistic Speedtest Card](img/omnilistic-speedtest.jpg)
-
-**Key Functions & Features:**
-* Visualizes raw data from your Home Assistant speedtest integration.
-* Displays your Ping, Download, and Upload speeds in a clean, easy-to-read format.
-
-```yaml
-type: custom:omnilistic-speedtest
-entity: sensor.speedtest_download
-```
-
-### 3. Minimal Purifier Card (`custom:minimal-purifier-card`)
-A simplified, highly functional control interface dedicated specifically for the **Xiaomi Air Purifier 4 Lite**.
-
-*Available in both Dark and Light modes:*
-![Minimal Purifier Card Dark](img/minimal-purifier-card.jpg)
-![Minimal Purifier Card Light](img/minimal-purifier-card-light.jpg)
-
-**Key Functions & Features:**
-* Strips away standard climate clutter for a minimal footprint.
-* Dedicated power toggle and fan speed controls for the Xiaomi Purifier.
-* Clear display of current air quality (PM2.5) readings.
-
-```yaml
-type: custom:minimal-purifier-card
-entity: fan.xiaomi_air_purifier_4_lite
+# Fully configurable via the Visual Editor!
 ```
 
 ---
 
-## 🚀 Installation (via HACS)
+### 2. Omnilistic Speedtest Card (`custom:omnilistic-speedtest`)
+A dedicated network monitoring card that visualizes your bandwidth data with beautifully animated arc gauges.
 
-1. Open **Home Assistant** and go to **HACS** > **Frontend**.
-2. Click the **three dots (⋮)** in the top right corner and select **Custom repositories**.
-3. Paste this link into the Repository field: `https://github.com/Ya7ya-mohammed/omnilistic`
-4. Select **Dashboard** as the Category and click **Add**.
-5. Click on the new **Omnilistic Cards** in your list, then click **Download**.
-6. **Important:** Refresh your browser or clear your mobile app cache (`Ctrl + F5` or pull down to refresh) so Home Assistant loads the new cards.
+![Omnilistic Speedtest Card](img/Omnilistic-speedtest.jpg)
 
-You can now use the cards from the visual Card Picker or manually in YAML.
+**Key Features:**
+* **Smart Color Scaling:** Arcs dynamically shift colors based on live Ping/Down/Up quality thresholds.
+* **Execution Scripting:** Tapping the card triggers a custom script to run your test while animating the speedometer icon.
+
+```yaml
+type: custom:omnilistic-speedtest
+script_entity: script.run_speedtest
+download_entity: sensor.speedtest_download
+upload_entity: sensor.speedtest_upload
+ping_entity: sensor.speedtest_ping
+```
+
+---
+
+### 3. Minimal Purifier Card (`custom:minimal-purifier-card`)
+A beautifully animated control interface engineered specifically for air purifiers (like the Xiaomi Air Purifier 4 Lite).
+
+![Minimal Purifier Card Dark](img/minimal-purifier-card.jpg)
+![Minimal Purifier Card Light](img/minimal-purifier-card-light.jpg)
+
+**Key Features:**
+* **Dynamic PM2.5 Engine:** Main ring and glow automatically shift colors from Green to Deep Red based on Air Quality.
+* **Particle Physics:** Renders floating air particles that react directly to the live fan speed percentage.
+* **Smart Controls:** Adaptive speed slider (only reveals on "Favorite" mode), plus Mode, Buzzer, and Lock toggles.
+* **Filter Tracking:** Integrated monitoring for your filter's remaining life and estimated days.
+
+```yaml
+type: custom:minimal-purifier-card
+power_entity: fan.air_purifier
+pm_entity: sensor.air_purifier_pm2_5
+mode_entity: fan.air_purifier
+speed_entity: number.air_purifier_favorite_motor_speed
+# Add remaining sensor/switch entities via the Visual Editor!
+```
