@@ -1,20 +1,5 @@
 # Omnilistic Cards 🎛️
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Ya7ya-mohammed&repository=omnilistic&category=plugin)
-
-A collection of precision-engineered, custom-built UI cards for your Home Assistant dashboard. Designed with modern aesthetics, zero-latency controls, dynamic animations, and full Visual Editor support.
-
----
-
-## 🚀 Installation 
-
-**Option 1: The Easy Way** Click the **"Open in HACS"** badge above to automatically add this repository to your Home Assistant instance.
-
-**Option 2: Manual HACS Install** 1. Go to **HACS** > **Frontend** > **⋮** > **Custom repositories**.
-2. Add `https://github.com/Ya7ya-mohammed/omnilistic` as a **Dashboard** category.
-3. Click **Download** and then refresh your browser cache (`Ctrl + F5`).
-
----
 
 ## 📦 The Cards
 
@@ -76,3 +61,18 @@ mode_entity: fan.air_purifier
 speed_entity: number.air_purifier_favorite_motor_speed
 # Add remaining sensor/switch entities via the Visual Editor!
 ```
+---
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Ya7ya-mohammed&repository=omnilistic&category=plugin)
+
+A collection of precision-engineered, custom-built UI cards for your Home Assistant dashboard. Designed with modern aesthetics, zero-latency controls, dynamic animations, and full Visual Editor support.
+
+
+## 🚀 Installation 
+
+**Option 1: The Easy Way** Click the **"Open in HACS"** badge above to automatically add this repository to your Home Assistant instance.
+
+**Option 2: Manual HACS Install** 1. Go to **HACS** > **Frontend** > **⋮** > **Custom repositories**.
+2. Add `https://github.com/Ya7ya-mohammed/omnilistic` as a **Dashboard** category.
+3. Click **Download** and then refresh your browser cache (`Ctrl + F5`).
+
+---
