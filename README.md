@@ -93,7 +93,7 @@ filter_days_entity: sensor.air_purifier_filter_use_time
 ---
 
 ## 🚀 Installation (via HACS)
-
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Ya7ya-mohammed&repository=omnilistic&category=plugin)
 1. Open **Home Assistant** and navigate to **HACS** > **Frontend**.
 2. Click the **three dots (⋮)** in the top right corner and select **Custom repositories**.
 3. Paste this link into the Repository field: `https://github.com/Ya7ya-mohammed/omnilistic`
