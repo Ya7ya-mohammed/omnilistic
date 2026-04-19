@@ -1,0 +1,33 @@
+name: Compile Omnilistic Suite
+
+on:
+  push:
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Combine JavaScript Files
+        run: |
+          mkdir -p dist
+          cat src/omnilistic-card.js > dist/omnilistic.js
+          echo -e "\n" >> dist/omnilistic.js
+          cat src/omnilistic-speedtest.js >> dist/omnilistic.js
+          echo -e "\n" >> dist/omnilistic.js
+          cat src/minimal-purifier-card.js >> dist/omnilistic.js
+
+      - name: Save Compiled File to Repository
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/omnilistic.js
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-compiled by Jarvis" && git push)
