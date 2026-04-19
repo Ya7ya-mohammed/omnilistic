@@ -1,4 +1,4 @@
-# Omnilistic Suite for Home Assistant 🎛️
+# Omnilistic Cards 🎛️
 
 A collection of precision-engineered, custom-built UI cards for your Home Assistant dashboard. Designed with modern aesthetics, zero-latency controls, dynamic animations, and clean coding principles.
 
@@ -7,7 +7,7 @@ A collection of precision-engineered, custom-built UI cards for your Home Assist
 ## 📦 The Cards
 
 ### 1. Omnilistic Card (`custom:omnilistic-card`)
-The flagship "Super JS Card" of the suite. A highly advanced, unified control card with dynamic media support, built-in sliders, and custom glassmorphism styling.
+The flagship "Super Card". A highly advanced, unified control card with dynamic media support, built-in sliders, and custom glassmorphism styling.
 
 ![Omnilistic Card](img/omnilistic-card.jpg)
 
