@@ -308,7 +308,6 @@ class OmnilisticCard extends HTMLElement {
           height: 14px;
           border-radius: 50%;
           background: #000000;
-          /* Removed shadow from thumb to prevent sharp edge artifacts */
           cursor: pointer;
         }
 
@@ -417,7 +416,6 @@ class OmnilisticCard extends HTMLElement {
     `;
     this.content = true;
 
-    // Inject custom slowed down speed (800ms) into the native MWC element's shadow root
     customElements.whenDefined('mwc-ripple').then(() => {
       const ripple = this.shadowRoot.getElementById('ripple');
       if (ripple) {
@@ -465,7 +463,6 @@ class OmnilisticCard extends HTMLElement {
       
       const val = parseFloat(e.target.value);
       
-      // Dynamic Smart Routing for Volume
       if (this.sliderMode === 'media_volume') {
         let volEntity = this.config.entity;
         if (this.config.use_secondary_entity && this.config.secondary_entity) {
@@ -502,9 +499,6 @@ class OmnilisticCard extends HTMLElement {
     });
   }
 
-  // =======================================================
-  // 3. UI RENDERING & LOGIC
-  // =======================================================
   updateSliderBackground(value) {
     const slider = this.shadowRoot.getElementById('slider');
     if (this.sliderMode === 'brightness' || this.sliderMode === 'number' || this.sliderMode === 'media_volume') {
@@ -557,7 +551,6 @@ class OmnilisticCard extends HTMLElement {
         iconWrapper.classList.remove('has-action');
     }
 
-    // Split Typography Logic
     if (styling.title_font_size) card.style.setProperty('--custom-font-size', `${styling.title_font_size}px`);
     else card.style.removeProperty('--custom-font-size');
     
@@ -577,7 +570,7 @@ class OmnilisticCard extends HTMLElement {
       const safeInset = Math.max(12, styling.border_radius * 0.6); 
       card.style.setProperty('--controls-inset', `${safeInset}px`);
     } else {
-      card.style.removeProperty('border-radius'); // Properly inherits HA Native Theme rounding
+      card.style.removeProperty('border-radius'); 
       card.style.setProperty('--controls-inset', '12px');
     }
 
@@ -594,7 +587,6 @@ class OmnilisticCard extends HTMLElement {
 
     const bgOp = styling.bg_opacity !== undefined ? styling.bg_opacity : 75;
     
-    // Bulletproof Entity Name Resolution
     let defaultName = stateObj.attributes.friendly_name || stateObj.entity_id || 'Unknown';
     if (this.config.name !== undefined && this.config.name.trim() !== '') {
         defaultName = this.config.name;
@@ -618,8 +610,8 @@ class OmnilisticCard extends HTMLElement {
     if (isOff || isUnavailable) {
       if (this.config.icon_off) activeIcon = this.config.icon_off;
       else if (this.config.icon) {
-         if (activeIcon.endsWith('-on')) activeIcon = activeIcon.replace('-on', '-off');
-         else if (!activeIcon.endsWith('-outline')) activeIcon = activeIcon + '-off';
+         // Keep custom icon untouched if no off-state icon is explicitly provided
+         activeIcon = this.config.icon;
       } else {
         const offMap = {
           'mdi:lightbulb': 'mdi:lightbulb-off', 'mdi:flash': 'mdi:flash-off', 'mdi:fan': 'mdi:fan-off',
@@ -639,7 +631,6 @@ class OmnilisticCard extends HTMLElement {
       else if (domain === 'light' || domain === 'switch' || domain === 'input_boolean' || activeIcon.includes('bulb')) iconEl.classList.add('anim-bright-idea');
     }
 
-    // Intelligent Dual-Entity Album Art Hunter
     let entityPic = null;
     if (domain === 'media_player' && stateObj.attributes.entity_picture) {
         entityPic = stateObj.attributes.entity_picture;
@@ -691,7 +682,6 @@ class OmnilisticCard extends HTMLElement {
     }
     attrsEl.innerText = attrText;
 
-    // --- Intelligent Media & Number Mode Processing ---
     this.availableModes = [];
     const isPrimaryMedia = domain === 'media_player';
     const isSecMedia = secDomain === 'media_player';
@@ -785,7 +775,6 @@ class OmnilisticCard extends HTMLElement {
              slider.step = secondaryStateObj.attributes.step ?? 1;
              slider.value = secondaryStateObj.state || 0;
           } else if (this.sliderMode === 'media_volume') {
-             // Seamlessly read from number if provided, otherwise native media volume
              let volEntityId = this.config.entity;
              if (this.config.use_secondary_entity && this.config.secondary_entity) {
                  const secDom = this.config.secondary_entity.split('.')[0];
@@ -818,9 +807,6 @@ class OmnilisticCard extends HTMLElement {
     }
   }
 
-  // =======================================================
-  // 4. INTERACTION & EVENT LISTENERS
-  // =======================================================
   bindMediaActions() {
     const callMedia = (service) => {
       let targetEntity = this.config.entity;
@@ -1055,16 +1041,6 @@ class OmnilisticCardEditor extends HTMLElement {
       Object.keys(this._hass.states[targetEntity].attributes).forEach(a => attrOptions.push({label: a, value: a}));
     }
     
-    const mainDomain = this._config?.entity ? this._config.entity.split('.')[0] : "";
-    const secDomain = (this._config?.use_secondary_entity && this._config?.secondary_entity) ? this._config.secondary_entity.split('.')[0] : "";
-    const isMedia = mainDomain === 'media_player' || secDomain === 'media_player';
-
-    if (isMedia) {
-        if (!attrOptions.some(opt => opt.value === 'volume_level')) {
-            attrOptions.push({label: "Volume (volume_level)", value: "volume_level"});
-        }
-    }
-
     const currentIcon = this._config?.icon || "";
     const knownPairs = ['mdi:lightbulb', 'mdi:flash', 'mdi:fan', 'mdi:toggle-switch', 'mdi:speaker', 'mdi:television', 'mdi:lamp', 'mdi:desk-lamp', 'mdi:floor-lamp', 'mdi:ceiling-light', 'mdi:wall-sconce', 'mdi:led-strip', 'mdi:string-lights', 'mdi:chandelier', 'mdi:track-light', 'mdi:vanity-light', 'mdi:microphone', 'mdi:camera', 'mdi:video', 'mdi:wifi', 'mdi:bluetooth', 'mdi:bell', 'mdi:alarm', 'mdi:projector', 'mdi:air-purifier', 'mdi:air-humidifier', 'mdi:water-heater', 'mdi:curtains', 'mdi:blinds', 'mdi:door', 'mdi:window', 'mdi:garage', 'mdi:garage-variant', 'mdi:gate', 'mdi:sofa', 'mdi:bed', 'mdi:fridge', 'mdi:washing-machine', 'mdi:tumble-dryer', 'mdi:power-socket', 'mdi:power-plug', 'mdi:router', 'mdi:server'];
     const pairSuffixes = ['-on', '-off', '-up', '-down', '-in', '-out', '-left', '-right', '-open', '-closed', '-upload', '-download', '-lock', '-unlock', '-locked', '-unlocked', '-play', '-pause', '-start', '-stop', '-plus', '-minus', '-check', '-close'];
@@ -1122,7 +1098,7 @@ class OmnilisticCardEditor extends HTMLElement {
     ];
 
     stylingSchema.push({ name: "", type: "grid", schema: [ { name: "enable_animations", selector: { boolean: {} } }, ...(isMedia ? [{ name: "dynamic_album_art", selector: { boolean: {} } }] : []) ]});
-    if (!supportsColor && !isMedia) stylingSchema.push({ name: "custom_background", selector: { text: {} } });
+    if (!supportsColor) stylingSchema.push({ name: "custom_background", selector: { text: {} } });
     stylingSchema.push({ name: "border_radius", selector: { number: { min: 0, max: 50, mode: "slider", unit_of_measurement: "px" } } }, { name: "bg_opacity", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "%" } } }, { name: "backdrop_blur", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "px" } } }, { name: "", type: "grid", schema: [ { name: "shadow_color", selector: { text: {} } }, { name: "shadow_size", selector: { number: { min: 0, max: 20, mode: "slider", unit_of_measurement: "px" } } } ]}, { name: "shadow_opacity", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "%" } } });
     return stylingSchema;
   }
@@ -1141,6 +1117,7 @@ window.customCards.push({
   preview: true,
   description: "A precision-engineered custom card with zero-latency controls and dynamic media support."
 });
+
 
 const LitElement = Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
 const html = LitElement.prototype.html;
