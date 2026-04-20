@@ -416,6 +416,7 @@ class OmnilisticCard extends HTMLElement {
     `;
     this.content = true;
 
+    // Inject custom slowed down speed (800ms) into the native MWC element's shadow root
     customElements.whenDefined('mwc-ripple').then(() => {
       const ripple = this.shadowRoot.getElementById('ripple');
       if (ripple) {
@@ -463,6 +464,7 @@ class OmnilisticCard extends HTMLElement {
       
       const val = parseFloat(e.target.value);
       
+      // Dynamic Smart Routing for Volume
       if (this.sliderMode === 'media_volume') {
         let volEntity = this.config.entity;
         if (this.config.use_secondary_entity && this.config.secondary_entity) {
@@ -499,6 +501,9 @@ class OmnilisticCard extends HTMLElement {
     });
   }
 
+  // =======================================================
+  // 3. UI RENDERING & LOGIC
+  // =======================================================
   updateSliderBackground(value) {
     const slider = this.shadowRoot.getElementById('slider');
     if (this.sliderMode === 'brightness' || this.sliderMode === 'number' || this.sliderMode === 'media_volume') {
@@ -654,9 +659,11 @@ class OmnilisticCard extends HTMLElement {
 
     const getAttr = (attrName, sObj, mObj) => {
       if (!attrName || attrName === 'none') return null; 
-      if (attrName === 'state') return { val: (sObj || mObj).state, obj: (sObj || mObj) };
-      if (sObj && sObj.attributes[attrName] !== undefined) return { val: sObj.attributes[attrName], obj: sObj };
+      // Prioritize primary entity's state for the core text rendering
+      if (attrName === 'state') return { val: (mObj || sObj).state, obj: (mObj || sObj) };
+      // Prioritize primary entity's attributes over secondary
       if (mObj && mObj.attributes[attrName] !== undefined) return { val: mObj.attributes[attrName], obj: mObj };
+      if (sObj && sObj.attributes[attrName] !== undefined) return { val: sObj.attributes[attrName], obj: sObj };
       return null;
     };
 
@@ -682,6 +689,7 @@ class OmnilisticCard extends HTMLElement {
     }
     attrsEl.innerText = attrText;
 
+    // --- Intelligent Media & Number Mode Processing ---
     this.availableModes = [];
     const isPrimaryMedia = domain === 'media_player';
     const isSecMedia = secDomain === 'media_player';
@@ -750,6 +758,7 @@ class OmnilisticCard extends HTMLElement {
         mediaControls.classList.add('active');
         modeIcon.icon = 'mdi:volume-high';
         
+        // Find the actual media entity for play/pause state checks
         let mediaStateObj = stateObj;
         if (!isPrimaryMedia && isSecMedia) mediaStateObj = secondaryStateObj;
         
@@ -775,6 +784,7 @@ class OmnilisticCard extends HTMLElement {
              slider.step = secondaryStateObj.attributes.step ?? 1;
              slider.value = secondaryStateObj.state || 0;
           } else if (this.sliderMode === 'media_volume') {
+             // Seamlessly read from number if provided, otherwise native media volume
              let volEntityId = this.config.entity;
              if (this.config.use_secondary_entity && this.config.secondary_entity) {
                  const secDom = this.config.secondary_entity.split('.')[0];
@@ -1033,14 +1043,36 @@ class OmnilisticCardEditor extends HTMLElement {
   }
 
   getTopSchema() {
-    const targetEntity = (this._config?.use_secondary_entity && this._config?.secondary_entity) ? this._config.secondary_entity : this._config?.entity || "";
     const allowedDomains = ["light", "switch", "media_player", "climate", "cover", "fan", "vacuum", "lock", "sensor", "binary_sensor", "button", "input_boolean", "number", "input_number", "select", "person"];
     const entitySelector = { entity: { domain: allowedDomains, exclude_integration: "browser_mod" } };
-    let attrOptions = [{label: "None (Empty)", value: "none"}, {label: "Entity State (state)", value: "state"}];
-    if (this._hass && targetEntity && this._hass.states[targetEntity]) {
-      Object.keys(this._hass.states[targetEntity].attributes).forEach(a => attrOptions.push({label: a, value: a}));
-    }
     
+    let attrOptions = [{label: "None (Empty)", value: "none"}, {label: "Entity State (state)", value: "state"}];
+    
+    const addAttrs = (entId) => {
+        if (this._hass && entId && this._hass.states[entId]) {
+            Object.keys(this._hass.states[entId].attributes).forEach(a => {
+                if (!attrOptions.some(opt => opt.value === a)) {
+                    attrOptions.push({label: a, value: a});
+                }
+            });
+        }
+    };
+    
+    addAttrs(this._config?.entity);
+    if (this._config?.use_secondary_entity) {
+        addAttrs(this._config?.secondary_entity);
+    }
+
+    const mainDomain = this._config?.entity ? this._config.entity.split('.')[0] : "";
+    const secDomain = (this._config?.use_secondary_entity && this._config?.secondary_entity) ? this._config.secondary_entity.split('.')[0] : "";
+    const isMedia = mainDomain === 'media_player' || secDomain === 'media_player';
+
+    if (isMedia) {
+        if (!attrOptions.some(opt => opt.value === 'volume_level')) {
+            attrOptions.push({label: "Volume (volume_level)", value: "volume_level"});
+        }
+    }
+
     const currentIcon = this._config?.icon || "";
     const knownPairs = ['mdi:lightbulb', 'mdi:flash', 'mdi:fan', 'mdi:toggle-switch', 'mdi:speaker', 'mdi:television', 'mdi:lamp', 'mdi:desk-lamp', 'mdi:floor-lamp', 'mdi:ceiling-light', 'mdi:wall-sconce', 'mdi:led-strip', 'mdi:string-lights', 'mdi:chandelier', 'mdi:track-light', 'mdi:vanity-light', 'mdi:microphone', 'mdi:camera', 'mdi:video', 'mdi:wifi', 'mdi:bluetooth', 'mdi:bell', 'mdi:alarm', 'mdi:projector', 'mdi:air-purifier', 'mdi:air-humidifier', 'mdi:water-heater', 'mdi:curtains', 'mdi:blinds', 'mdi:door', 'mdi:window', 'mdi:garage', 'mdi:garage-variant', 'mdi:gate', 'mdi:sofa', 'mdi:bed', 'mdi:fridge', 'mdi:washing-machine', 'mdi:tumble-dryer', 'mdi:power-socket', 'mdi:power-plug', 'mdi:router', 'mdi:server'];
     const pairSuffixes = ['-on', '-off', '-up', '-down', '-in', '-out', '-left', '-right', '-open', '-closed', '-upload', '-download', '-lock', '-unlock', '-locked', '-unlocked', '-play', '-pause', '-start', '-stop', '-plus', '-minus', '-check', '-close'];
@@ -1076,18 +1108,6 @@ class OmnilisticCardEditor extends HTMLElement {
   }
 
   getStyleSchema() {
-    const mainDomain = this._config?.entity ? this._config.entity.split('.')[0] : "";
-    const secDomain = (this._config?.use_secondary_entity && this._config?.secondary_entity) ? this._config.secondary_entity.split('.')[0] : "";
-    const isMedia = mainDomain === 'media_player' || secDomain === 'media_player';
-
-    let supportsColor = false;
-    [this._config?.entity, this._config?.secondary_entity].forEach(ent => {
-      if (ent && this._hass && this._hass.states[ent]) {
-        const supportedModes = this._hass.states[ent].attributes?.supported_color_modes || [];
-        if (supportedModes.includes('hs') || supportedModes.includes('rgb') || supportedModes.includes('xy')) supportsColor = true;
-      }
-    });
-
     const stylingSchema = [
       { name: "", type: "grid", schema: [ 
         { name: "center_layout", selector: { boolean: {} } },
@@ -1097,8 +1117,12 @@ class OmnilisticCardEditor extends HTMLElement {
       ]}
     ];
 
+    const mainDomain = this._config?.entity ? this._config.entity.split('.')[0] : "";
+    const secDomain = (this._config?.use_secondary_entity && this._config?.secondary_entity) ? this._config.secondary_entity.split('.')[0] : "";
+    const isMedia = mainDomain === 'media_player' || secDomain === 'media_player';
+
     stylingSchema.push({ name: "", type: "grid", schema: [ { name: "enable_animations", selector: { boolean: {} } }, ...(isMedia ? [{ name: "dynamic_album_art", selector: { boolean: {} } }] : []) ]});
-    if (!supportsColor) stylingSchema.push({ name: "custom_background", selector: { text: {} } });
+    stylingSchema.push({ name: "custom_background", selector: { text: {} } });
     stylingSchema.push({ name: "border_radius", selector: { number: { min: 0, max: 50, mode: "slider", unit_of_measurement: "px" } } }, { name: "bg_opacity", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "%" } } }, { name: "backdrop_blur", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "px" } } }, { name: "", type: "grid", schema: [ { name: "shadow_color", selector: { text: {} } }, { name: "shadow_size", selector: { number: { min: 0, max: 20, mode: "slider", unit_of_measurement: "px" } } } ]}, { name: "shadow_opacity", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "%" } } });
     return stylingSchema;
   }
